@@ -1,5 +1,12 @@
+import { useState } from 'react';
+
 import Head from 'next/head';
 import Link from 'next/link';
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import styles from '../styles/Home.module.css';
 
@@ -7,6 +14,12 @@ import products from './../data/data.json';
 import ProductCard from '../components/ProductCard';
 
 export default function Home() {
+  const [categoryFilter, setCategoryFilter] = useState('all');
+
+  const handleChange = (event) => {
+    setCategoryFilter(event.target.value);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,14 +30,40 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1>Products</h1>
+        <FormControl>
+          <InputLabel id="category-label">Category</InputLabel>
+          <Select
+            labelId="category-label"
+            id="category-label"
+            value={categoryFilter}
+            label="Category"
+            onChange={handleChange}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="electronics">Electronics</MenuItem>
+            <MenuItem value="jewelery">Jewelery</MenuItem>
+            <MenuItem value="men's clothing">men&apos;s clothing</MenuItem>
+            <MenuItem value="women's clothing">Women&apos;s clothing</MenuItem>
+          </Select>
+        </FormControl>
         <div className="card__wrapper">
-          {products.map((product, i) => (
-            <Link key={i} href={`products/${product.id}`}>
-              <a>
-                <ProductCard product={JSON.stringify(product)} />
-              </a>
-            </Link>
-          ))}
+          {categoryFilter !== 'all'
+            ? products
+                .filter((product) => product.category === categoryFilter)
+                .map((product, i) => (
+                  <Link key={i} href={`products/${product.id}`}>
+                    <a>
+                      <ProductCard product={JSON.stringify(product)} />
+                    </a>
+                  </Link>
+                ))
+            : products.map((product, i) => (
+                <Link key={i} href={`products/${product.id}`}>
+                  <a>
+                    <ProductCard product={JSON.stringify(product)} />
+                  </a>
+                </Link>
+              ))}
         </div>
       </main>
 
