@@ -1,16 +1,15 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import products from '../../data/data.json';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 
-const Product = () => {
+const Product = ({ allProducts }) => {
   const router = useRouter();
   const { pid } = router.query;
-  const product = products.find((product) => product.id === Number(pid));
+  const product = allProducts.find((product) => product.id === Number(pid));
   // console.log('all: ', allProducts);
-  console.log('pid: ', pid);
-  console.log('found: ', product);
+  // console.log('pid: ', pid);
+  // console.log('found: ', product);
 
   return (
     <div className="product">
@@ -34,13 +33,13 @@ const Product = () => {
 
 export default Product;
 
-// export async function getServerSideProps(context) {
-//   const response = await fetch('https://fakestoreapi.com/products');
-//   const allProducts = await response.json();
+export async function getServerSideProps(context) {
+  const response = await fetch('https://fakestoreapi.com/products');
+  const allProducts = await response.json();
 
-//   return {
-//     props: {
-//       allProducts,
-//     }, // will be passed to the page component as props
-//   };
-// }
+  if (!allProducts) return { notFound: true };
+
+  return {
+    props: { allProducts },
+  };
+}
