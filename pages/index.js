@@ -10,10 +10,9 @@ import Select from '@mui/material/Select';
 
 import styles from '../styles/Home.module.css';
 
-import products from './../data/data.json';
 import ProductCard from '../components/ProductCard';
 
-export default function Home() {
+export default function Home({ allProducts }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
 
   const handleChange = (event) => {
@@ -42,13 +41,13 @@ export default function Home() {
             <MenuItem value="all">All</MenuItem>
             <MenuItem value="electronics">Electronics</MenuItem>
             <MenuItem value="jewelery">Jewelery</MenuItem>
-            <MenuItem value="men's clothing">men&apos;s clothing</MenuItem>
+            <MenuItem value="men's clothing">Men&apos;s clothing</MenuItem>
             <MenuItem value="women's clothing">Women&apos;s clothing</MenuItem>
           </Select>
         </FormControl>
         <div className="card__wrapper">
           {categoryFilter !== 'all'
-            ? products
+            ? allProducts
                 .filter((product) => product.category === categoryFilter)
                 .map((product, i) => (
                   <Link key={i} href={`products/${product.id}`}>
@@ -57,7 +56,7 @@ export default function Home() {
                     </a>
                   </Link>
                 ))
-            : products.map((product, i) => (
+            : allProducts.map((product, i) => (
                 <Link key={i} href={`products/${product.id}`}>
                   <a>
                     <ProductCard product={JSON.stringify(product)} />
@@ -81,4 +80,13 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch('https://fakestoreapi.com/products');
+  const allProducts = await res.json();
+
+  return {
+    props: { allProducts },
+  };
 }
