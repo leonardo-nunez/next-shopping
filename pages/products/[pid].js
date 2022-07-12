@@ -4,9 +4,10 @@ import products from '../../data/data.json';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 
-const Customer = (props) => {
+const Product = () => {
   const router = useRouter();
   const { pid } = router.query;
+  // const product = products.find((product) => product.id === pid);
 
   return (
     <div className="product">
@@ -16,6 +17,7 @@ const Customer = (props) => {
         height={500}
         width={500}
       />
+      {/* <h1>Found title: {product?.title}</h1> */}
       <h1>{products[pid - 1]?.title}</h1>
       <h3>{products[pid - 1]?.description}</h3>
       <h5>Category: {products[pid - 1]?.category}</h5>
@@ -27,4 +29,4 @@ const Customer = (props) => {
   );
 };
 
-export default Customer;
+export default Product;
