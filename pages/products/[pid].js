@@ -1,16 +1,14 @@
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 
-const Product = ({ allProducts }) => {
-  const router = useRouter();
-  const { pid } = router.query;
-  const product = allProducts.find((product) => product.id === Number(pid));
-  // console.log('all: ', allProducts);
-  // console.log('pid: ', pid);
-  // console.log('found: ', product);
+const getAllProducts = async () => {
+  const response = await fetch('https://fakestoreapi.com/products');
+  const allProducts = await response.json();
+  return allProducts;
+};
 
+const Product = ({ product }) => {
   return (
     <div className="product">
       <Image
@@ -33,13 +31,27 @@ const Product = ({ allProducts }) => {
 
 export default Product;
 
-export async function getServerSideProps(context) {
-  const response = await fetch('https://fakestoreapi.com/products');
-  const allProducts = await response.json();
+export async function getStaticPaths() {
+  const allProducts = await getAllProducts();
 
-  if (!allProducts) return { notFound: true };
+  const paths = allProducts.map((product) => ({
+    params: {
+      pid: `${product.id}`,
+    },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  const allProducts = await getAllProducts();
+  const product = allProducts.find(
+    (product) => product.id === Number(params.pid)
+  );
+
+  if (!product) return { notFound: true };
 
   return {
-    props: { allProducts },
+    props: { product },
   };
 }
