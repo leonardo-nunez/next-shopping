@@ -1,15 +1,41 @@
 import Image from 'next/image';
 
+import Button from './Button';
+
+import styles from './ProductCard.module.scss';
+
 const ProductCard = (props) => {
   const prod = JSON.parse(props.product);
+  const category = props.categories.find((c) => c.value === prod.category);
 
   return (
-    <div className="card">
-      <Image src={prod.image} alt="product image" width="50" height="50" />
-      <div className="card__content">
-        <h4>{prod.title}</h4>
-        <p>€ {prod.price}</p>
-        <p>Cathegory: {prod.category}</p>
+    <div className={styles.card}>
+      <div className={styles.card__img_section}>
+        <div className={styles.card__img_wrapper}>
+          <Button
+            style={{ backgroundColor: category.color }}
+            className={`${styles.nav__button} ${styles.nav__button_card}`}
+            value={category.value}
+            icon={
+              <Image
+                src={category.icon}
+                alt={category.value}
+                height="20"
+                width="20"
+              />
+            }
+          />
+          <Image
+            src={prod.image}
+            alt="product image"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+      </div>
+      <div className={styles.card__content}>
+        <p>{prod.title}</p>
+        <h4>€ {prod.price}</h4>
       </div>
     </div>
   );

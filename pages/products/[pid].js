@@ -11,13 +11,22 @@ const getAllProducts = async () => {
 const Product = ({ product }) => {
   return (
     <div className="product">
-      <Image
-        src={product?.image}
-        alt="product image"
-        height={500}
-        width={500}
-      />
-      <h1>Found title: {product?.title}</h1>
+      <div
+        style={{
+          position: 'relative',
+          width: '500px',
+          height: '500px',
+          maxHeight: '500px',
+          maxWidth: '500px',
+        }}
+      >
+        <Image
+          src={product?.image}
+          alt="product image"
+          layout="fill"
+          objectFit="contain"
+        />
+      </div>
       <h1>{product?.title}</h1>
       <h3>{product?.description}</h3>
       <h5>Category: {product?.category}</h5>
