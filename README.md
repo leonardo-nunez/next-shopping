@@ -11,3 +11,7 @@ Made during the PGP program at SALT in 2022.
 **Client:** NextJS, SCSS
 
 Using static pages for faster loading times.
+
+## Demo
+
+https://next-shopping.herokuapp.com/
