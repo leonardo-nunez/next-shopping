@@ -9,48 +9,38 @@ import styles from '../styles/Home.module.scss';
 import ProductCard from '../components/ProductCard';
 import Button from '../components/Button';
 
-import { FaMobileAlt, FaGem } from 'react-icons/fa';
-
-import IconButton from '@mui/material/IconButton';
-import AppsIcon from '@mui/icons-material/Apps';
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import DiamondIcon from '@mui/icons-material/Diamond';
-import ManIcon from '@mui/icons-material/Man';
-import WomanIcon from '@mui/icons-material/Woman';
-
-import gridIcon from '../images/apps-grid.svg';
+import gridIcon from '../images/gridIcon.svg';
 import mobileIcon from '../images/mobile-screen-button-solid.svg';
 import gemIcon from '../images/gem-solid.svg';
 import manIcon from '../images/person-solid.svg';
 import womanIcon from '../images/person-dress-solid.svg';
-
 import logo from '../images/nextshoppinglogo1.png';
+
+export const categories = [
+  {
+    value: 'electronics',
+    color: '#EC958D',
+    icon: mobileIcon,
+  },
+  {
+    value: 'jewelery',
+    color: '#FFDF00',
+    icon: gemIcon,
+  },
+  {
+    value: "men's clothing",
+    color: '#93CE45',
+    icon: manIcon,
+  },
+  {
+    value: "women's clothing",
+    color: '#9CC4D1',
+    icon: womanIcon,
+  },
+];
 
 export default function Home({ allProducts }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
-
-  const categories = [
-    {
-      value: 'electronics',
-      color: '#EC958D',
-      icon: mobileIcon,
-    },
-    {
-      value: 'jewelery',
-      color: '#FFDF00',
-      icon: gemIcon,
-    },
-    {
-      value: "men's clothing",
-      color: '#93CE45',
-      icon: manIcon,
-    },
-    {
-      value: "women's clothing",
-      color: '#9CC4D1',
-      icon: womanIcon,
-    },
-  ];
 
   function capitalizeFirstLetter(string) {
     return string?.charAt(0).toUpperCase() + string?.slice(1);
@@ -139,10 +129,7 @@ export default function Home({ allProducts }) {
                   .map((product, i) => (
                     <Link key={i} href={`products/${product.id}`}>
                       <a className={styles.card__link}>
-                        <ProductCard
-                          product={JSON.stringify(product)}
-                          categories={categories}
-                        />
+                        <ProductCard product={JSON.stringify(product)} />
                       </a>
                     </Link>
                   ))

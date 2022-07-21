@@ -1,12 +1,13 @@
 import Image from 'next/image';
 
 import Button from './Button';
+import { categories } from '../pages/index';
 
 import styles from './ProductCard.module.scss';
 
 const ProductCard = (props) => {
   const prod = JSON.parse(props.product);
-  const category = props.categories.find((c) => c.value === prod.category);
+  const category = categories.find((c) => c.value === prod.category);
 
   return (
     <div className={styles.card}>
